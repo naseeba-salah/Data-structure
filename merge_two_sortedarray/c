@@ -1,36 +1,25 @@
 #include <stdio.h>
 
-int main() {
-    int n1, n2, i, j, k;
+// Function to merge two arrays without sorting
+void mergeUnsortedArrays(int arr1[], int n1, int arr2[], int n2, int merged[]) {
+    int i, k = 0;
 
-    // Get the size of the first array
-    printf("Enter the size of the first array: ");
-    scanf("%d", &n1);
-    int arr1[n1];
-
-    // Input elements for the first sorted array
-    printf("Enter the elements of the first sorted array:\n");
+    // Copy elements of arr1 to merged array
     for (i = 0; i < n1; i++) {
-        scanf("%d", &arr1[i]);
+        merged[k++] = arr1[i];
     }
 
-    // Get the size of the second array
-    printf("Enter the size of the second array: ");
-    scanf("%d", &n2);
-    int arr2[n2];
-
-    // Input elements for the second sorted array
-    printf("Enter the elements of the second sorted array:\n");
+    // Copy elements of arr2 to merged array
     for (i = 0; i < n2; i++) {
-        scanf("%d", &arr2[i]);
+        merged[k++] = arr2[i];
     }
+}
 
-    // Array to store the merged result
-    int merged[n1 + n2];
-    
-    i = j = k = 0; // Initialize indices
+// Function to merge two sorted arrays
+void mergeSortedArrays(int arr1[], int n1, int arr2[], int n2, int merged[]) {
+    int i = 0, j = 0, k = 0;
 
-    // Merge the arrays
+    // Traverse both arrays and pick the smaller element to merge
     while (i < n1 && j < n2) {
         if (arr1[i] < arr2[j]) {
             merged[k++] = arr1[i++];
@@ -39,94 +28,108 @@ int main() {
         }
     }
 
-    // Copy any remaining elements from arr1
+    // Copy the remaining elements of arr1, if any
     while (i < n1) {
         merged[k++] = arr1[i++];
     }
 
-    // Copy any remaining elements from arr2
+    // Copy the remaining elements of arr2, if any
     while (j < n2) {
         merged[k++] = arr2[j++];
     }
+}
 
-    // Print the merged array
-    printf("Merged array: ");
-    for (i = 0; i < n1 + n2; i++) {
-        printf("%d ", merged[i]);
+// Function to sort an array (using bubble sort for simplicity)
+void sortArray(int arr[], int n) {
+    int temp;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+                // Swap arr[j] and arr[j + 1]
+                temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    int n1, n2;
+
+    // Input size of first array
+    printf("Enter the number of elements in the first array: ");
+    scanf("%d", &n1);
+    int arr1[n1];
+
+    // Input elements of first array (unsorted)
+    printf("Enter the elements of the first array (unsorted): ");
+    for (int i = 0; i < n1; i++) {
+        scanf("%d", &arr1[i]);
+    }
+
+    // Input size of second array
+    printf("Enter the number of elements in the second array: ");
+    scanf("%d", &n2);
+    int arr2[n2];
+
+    // Input elements of second array (unsorted)
+    printf("Enter the elements of the second array (unsorted): ");
+    for (int i = 0; i < n2; i++) {
+        scanf("%d", &arr2[i]);
+    }
+
+    // Display the unsorted arrays
+    printf("Unsorted first array: ");
+    for (int i = 0; i < n1; i++) {
+        printf("%d ", arr1[i]);
+    }
+    printf("\n");
+
+    printf("Unsorted second array: ");
+    for (int i = 0; i < n2; i++) {
+        printf("%d ", arr2[i]);
+    }
+    printf("\n");
+
+    // Sort both arrays
+    sortArray(arr1, n1);
+    sortArray(arr2, n2);
+
+    // Display the sorted arrays
+    printf("Sorted first array: ");
+    for (int i = 0; i < n1; i++) {
+        printf("%d ", arr1[i]);
+    }
+    printf("\n");
+
+    printf("Sorted second array: ");
+    for (int i = 0; i < n2; i++) {
+        printf("%d ", arr2[i]);
+    }
+    printf("\n");
+
+    // Merge the sorted arrays
+    int mergedSorted[n1 + n2];
+    mergeSortedArrays(arr1, n1, arr2, n2, mergedSorted);
+
+    // Display the merged sorted array
+    printf("Merged sorted array: ");
+    for (int i = 0; i < n1 + n2; i++) {
+        printf("%d ", mergedSorted[i]);
+    }
+    printf("\n");
+
+    // Merge the unsorted arrays
+    int mergedUnsorted[n1 + n2];
+    mergeUnsortedArrays(arr1, n1, arr2, n2, mergedUnsorted);
+
+    // Display the merged unsorted array
+    printf("Merged unsorted array: ");
+    for (int i = 0; i < n1 + n2; i++) {
+        printf("%d ", mergedUnsorted[i]);
     }
     printf("\n");
 
     return 0;
 }
-
-
-
-
-
-//#include <stdio.h>
-// void insert_elements(int arr[], int size) {
-//     for (int i = 0; i < size; i++) {
-//         printf("Enter element %d: ", i + 1);
-//         scanf("%d", &arr[i]);
-//     }
-// }
-
-// void sort_array(int arr[], int size) {
-//     for (int i = 0; i < size - 1; i++) {
-//         for (int j = 0; j < size - i - 1; j++) {
-//             if (arr[j] > arr[j + 1]) {
-//                 int temp = arr[j];
-//                 arr[j] = arr[j + 1];
-//                 arr[j + 1] = temp;
-//             }
-//         }
-//     }
-// }
-
-// void merge_arrays(int arr1[], int size1, int arr2[], int size2, int merged[]) {
-//     int i = 0, j = 0, k = 0;
-
-//     while (i < size1 && j < size2) {
-//         if (arr1[i] < arr2[j]) {
-//             merged[k++] = arr1[i++];
-//         } else {
-//             merged[k++] = arr2[j++];
-//         }
-//     }
-
-//     while (i < size1) {
-//         merged[k++] = arr1[i++];
-//     }
-//     while (j < size2) {
-//         merged[k++] = arr2[j++];
-//     }
-// }
-
-// int main() {
-//     int size1, size2;
-//     printf("Enter the size of the first array: ");
-//     scanf("%d", &size1);
-    
-//     int array1[size1];
-//     insert_elements(array1, size1);
-//     printf("Enter the size of the second array: ");
-//     scanf("%d", &size2);
-    
-//     int array2[size2];
-//     insert_elements(array2, size2);
-//     sort_array(array1, size1);
-//     sort_array(array2, size2);
-    
-//     int merged[size1 + size2];
-//     merge_arrays(array1, size1, array2, size2, merged);
-//     sort_array(merged, size1 + size2);
-//     printf("Sorted merged array: ");
-//     for (int i = 0; i < size1 + size2; i++) {
-//         printf("%d ", merged[i]);
-//     }
-//     printf("\n");
-
-//     return 0;
-// }
-
-
